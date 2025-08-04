@@ -1,7 +1,8 @@
 package com.reso.bffscheduler.controller;
 
 import com.reso.bffscheduler.business.TaskService;
-import com.reso.bffscheduler.business.dto.taskDTO.TaskDTO;
+import com.reso.bffscheduler.business.dto.in.TaskDTORequest;
+import com.reso.bffscheduler.business.dto.out.TaskDTOResponse;
 import com.reso.bffscheduler.business.enums.StatusTaskEnum;
 import com.reso.bffscheduler.infrastructure.security.SecurityConfig;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,9 +36,9 @@ public class TaskController {
             @ApiResponse(responseCode = "403", description = "Forbidden access"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<TaskDTO> createTask(@RequestBody TaskDTO taskDTO,
-                                              @RequestHeader(name = "Authorization", required = false) String token) {
-        return ResponseEntity.ok(taskService.createTask(token, taskDTO));
+    public ResponseEntity<TaskDTOResponse> createTask(@RequestBody TaskDTORequest taskDTORequest,
+                                                      @RequestHeader(name = "Authorization", required = false) String token) {
+        return ResponseEntity.ok(taskService.createTask(token, taskDTORequest));
     }
 
     @GetMapping("/events")
@@ -50,13 +51,13 @@ public class TaskController {
             @ApiResponse(responseCode = "404", description = "Tasks not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<TaskDTO>> getAllTasks(
+    public ResponseEntity<List<TaskDTOResponse>> getAllTasks(
             @RequestParam("eventAfter") @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss") LocalDateTime eventAfter,
             @RequestParam("eventBefore") @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss") LocalDateTime eventBefore,
             @RequestParam("status") StatusTaskEnum statusTaskEnum,
             @RequestHeader(name = "Authorization", required = false) String token) {
-        List<TaskDTO> listTaskDTO = taskService.getTaskByPeriod(eventAfter, eventBefore, statusTaskEnum, token);
-        return ResponseEntity.ok(listTaskDTO);
+        List<TaskDTOResponse> listTaskDTOResponse = taskService.getTaskByPeriod(eventAfter, eventBefore, statusTaskEnum, token);
+        return ResponseEntity.ok(listTaskDTOResponse);
     }
 
     @GetMapping("/search-by-email")
@@ -69,9 +70,9 @@ public class TaskController {
             @ApiResponse(responseCode = "404", description = "Tasks not found for the given email"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<TaskDTO>> getTaskByEmail(@RequestHeader(name = "Authorization", required = false) String token) {
-        List<TaskDTO> listTaskDTO = taskService.getTaskByEmail(token);
-        return ResponseEntity.ok(listTaskDTO);
+    public ResponseEntity<List<TaskDTOResponse>> getTaskByEmail(@RequestHeader(name = "Authorization", required = false) String token) {
+        List<TaskDTOResponse> listTaskDTOResponse = taskService.getTaskByEmail(token);
+        return ResponseEntity.ok(listTaskDTOResponse);
     }
 
     @DeleteMapping()
@@ -100,9 +101,9 @@ public class TaskController {
             @ApiResponse(responseCode = "404", description = "Task not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<TaskDTO> updateStatusTask(@RequestParam("status") StatusTaskEnum statusTaskEnum,
-                                                    @RequestParam("id") String id,
-                                                    @RequestHeader(name = "Authorization", required = false) String token) {
+    public ResponseEntity<TaskDTOResponse> updateStatusTask(@RequestParam("status") StatusTaskEnum statusTaskEnum,
+                                                            @RequestParam("id") String id,
+                                                            @RequestHeader(name = "Authorization", required = false) String token) {
         return ResponseEntity.ok(taskService.updateStatusTask(id, statusTaskEnum, token));
     }
 
@@ -116,10 +117,10 @@ public class TaskController {
             @ApiResponse(responseCode = "404", description = "Task not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<TaskDTO> updateTask(@RequestBody TaskDTO taskDTO,
-                                              @RequestParam("id") String id,
-                                              @RequestHeader(name = "Authorization", required = false) String token) {
-        return ResponseEntity.ok(taskService.updateTask(taskDTO, id, token));
+    public ResponseEntity<TaskDTOResponse> updateTask(@RequestBody TaskDTORequest taskDTORequest,
+                                                      @RequestParam("id") String id,
+                                                      @RequestHeader(name = "Authorization", required = false) String token) {
+        return ResponseEntity.ok(taskService.updateTask(taskDTORequest, id, token));
     }
 
 }

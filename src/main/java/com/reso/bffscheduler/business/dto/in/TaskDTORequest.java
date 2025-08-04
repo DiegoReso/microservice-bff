@@ -1,4 +1,4 @@
-package com.reso.bffscheduler.business.dto.taskDTO;
+package com.reso.bffscheduler.business.dto.in;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -12,18 +12,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TaskDTO {
+public class TaskDTORequest {
 
-    private String id;
+
     private String nameTask;
     private String description;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-    private LocalDateTime createDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime eventDate;
-    private String userEmail;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-    private LocalDateTime changeDate;
-    private StatusTaskEnum statusTaskEnum;
 
 }

@@ -1,4 +1,4 @@
-package com.reso.bffscheduler.business.dto.userDTO;
+package com.reso.bffscheduler.business.dto.out;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AddressDTO {
+public class AddressDTOResponse {
 
     private Long id;
     private String street;

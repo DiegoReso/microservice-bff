@@ -2,9 +2,13 @@ package com.reso.bffscheduler.controller;
 
 
 import com.reso.bffscheduler.business.UserService;
-import com.reso.bffscheduler.business.dto.userDTO.AddressDTO;
-import com.reso.bffscheduler.business.dto.userDTO.PhoneDTO;
-import com.reso.bffscheduler.business.dto.userDTO.UserDTO;
+import com.reso.bffscheduler.business.dto.in.AddressDTORequest;
+import com.reso.bffscheduler.business.dto.in.LoginDTORequest;
+import com.reso.bffscheduler.business.dto.in.PhoneDTORequest;
+import com.reso.bffscheduler.business.dto.in.UserDTORequest;
+import com.reso.bffscheduler.business.dto.out.AddressDTOResponse;
+import com.reso.bffscheduler.business.dto.out.PhoneDTOResponse;
+import com.reso.bffscheduler.business.dto.out.UserDTOResponse;
 import com.reso.bffscheduler.infrastructure.security.SecurityConfig;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -36,8 +40,8 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-        UserDTO user = userService.insertUser(userDTO);
+    public ResponseEntity<UserDTOResponse> createUser(@RequestBody UserDTORequest userDTORequest) {
+        UserDTOResponse user = userService.insertUser(userDTORequest);
         return ResponseEntity.ok().body(user);
     }
 
@@ -48,8 +52,8 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "Invalid credentials"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public String login(@RequestBody UserDTO userDTO) {
-        return userService.userLogin(userDTO);
+    public String login(@RequestBody LoginDTORequest loginDTORequest) {
+        return userService.userLogin(loginDTORequest);
     }
 
     @GetMapping()
@@ -60,9 +64,9 @@ public class UserController {
             @ApiResponse(responseCode = "403", description = "Forbidden access"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<UserDTO> getUser(@RequestParam("email") String email,
-                                           @RequestHeader(name = "Authorization", required = false) String token) {
-        UserDTO userByEmail = userService.findUserByEmail(email, token);
+    public ResponseEntity<UserDTOResponse> getUser(@RequestParam("email") String email,
+                                                   @RequestHeader(name = "Authorization", required = false) String token) {
+        UserDTOResponse userByEmail = userService.findUserByEmail(email, token);
         return ResponseEntity.ok(userByEmail);
     }
 
@@ -89,9 +93,9 @@ public class UserController {
             @ApiResponse(responseCode = "403", description = "Forbidden access"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO,
-                                              @RequestHeader(name = "Authorization", required = false) String token) {
-        return ResponseEntity.ok(userService.updateDataUser(userDTO, token));
+    public ResponseEntity<UserDTOResponse> updateUser(@RequestBody UserDTORequest userDTORequest,
+                                                      @RequestHeader(name = "Authorization", required = false) String token) {
+        return ResponseEntity.ok(userService.updateDataUser(userDTORequest, token));
     }
 
     @PutMapping("/address")
@@ -102,10 +106,10 @@ public class UserController {
             @ApiResponse(responseCode = "403", description = "Forbidden access"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<AddressDTO> updateAddress(@RequestBody AddressDTO addressDTO,
-                                                    @RequestParam("id") Long id,
-                                                    @RequestHeader(name = "Authorization", required = false) String token) {
-        return ResponseEntity.ok(userService.updateAddress(id, addressDTO, token));
+    public ResponseEntity<AddressDTOResponse> updateAddress(@RequestBody AddressDTORequest addressDTORequest,
+                                                            @RequestParam("id") Long id,
+                                                            @RequestHeader(name = "Authorization", required = false) String token) {
+        return ResponseEntity.ok(userService.updateAddress(id, addressDTORequest, token));
     }
 
     @PutMapping("/phone")
@@ -116,10 +120,10 @@ public class UserController {
             @ApiResponse(responseCode = "403", description = "Forbidden access"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<PhoneDTO> updatePhone(@RequestBody PhoneDTO phoneDTO,
-                                                @RequestParam("id") Long id,
-                                                @RequestHeader(name = "Authorization", required = false) String token) {
-        return ResponseEntity.ok(userService.updatePhone(id, phoneDTO, token));
+    public ResponseEntity<PhoneDTOResponse> updatePhone(@RequestBody PhoneDTORequest phoneDTORequest,
+                                                        @RequestParam("id") Long id,
+                                                        @RequestHeader(name = "Authorization", required = false) String token) {
+        return ResponseEntity.ok(userService.updatePhone(id, phoneDTORequest, token));
     }
 
 
@@ -131,9 +135,9 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<UserDTO> insertAddress(@RequestBody AddressDTO addressDTO,
-                                                 @RequestHeader(name = "Authorization", required = false) String token) {
-        return ResponseEntity.ok(userService.insertAddress(addressDTO, token));
+    public ResponseEntity<UserDTOResponse> insertAddress(@RequestBody AddressDTORequest addressDTORequest,
+                                                         @RequestHeader(name = "Authorization", required = false) String token) {
+        return ResponseEntity.ok(userService.insertAddress(addressDTORequest, token));
     }
 
     @PostMapping("/phone")
@@ -144,9 +148,9 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<UserDTO> insertPhone(@RequestBody PhoneDTO phoneDTO,
-                                               @RequestHeader(name = "Authorization", required = false) String token) {
-        return ResponseEntity.ok(userService.insertPhone(phoneDTO, token));
+    public ResponseEntity<UserDTOResponse> insertPhone(@RequestBody PhoneDTORequest phoneDTORequest,
+                                                       @RequestHeader(name = "Authorization", required = false) String token) {
+        return ResponseEntity.ok(userService.insertPhone(phoneDTORequest, token));
     }
 
 }

@@ -1,9 +1,13 @@
 package com.reso.bffscheduler.infrastructure.client;
 
 
-import com.reso.bffscheduler.business.dto.userDTO.AddressDTO;
-import com.reso.bffscheduler.business.dto.userDTO.PhoneDTO;
-import com.reso.bffscheduler.business.dto.userDTO.UserDTO;
+import com.reso.bffscheduler.business.dto.in.AddressDTORequest;
+import com.reso.bffscheduler.business.dto.in.LoginDTORequest;
+import com.reso.bffscheduler.business.dto.in.PhoneDTORequest;
+import com.reso.bffscheduler.business.dto.in.UserDTORequest;
+import com.reso.bffscheduler.business.dto.out.AddressDTOResponse;
+import com.reso.bffscheduler.business.dto.out.PhoneDTOResponse;
+import com.reso.bffscheduler.business.dto.out.UserDTOResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,43 +15,43 @@ import org.springframework.web.bind.annotation.*;
 public interface UserClient {
 
     @GetMapping()
-    UserDTO findUserByEmail(@RequestParam("email") String email,
-                            @RequestHeader("Authorization") String token);
+    UserDTOResponse findUserByEmail(@RequestParam("email") String email,
+                                    @RequestHeader("Authorization") String token);
 
     @PostMapping
-    UserDTO createUser(@RequestBody UserDTO userDTO);
+    UserDTOResponse createUser(@RequestBody UserDTORequest dtoRequest);
 
     @PostMapping("login")
-    String login(@RequestBody UserDTO userDTO);
+    String login(@RequestBody LoginDTORequest loginDTORequest);
 
     @GetMapping()
-    UserDTO getUser(@RequestParam("email") String email,
-                    @RequestHeader("Authorization") String token);
+    UserDTOResponse getUser(@RequestParam("email") String email,
+                            @RequestHeader("Authorization") String token);
 
     @DeleteMapping("/{email}")
     void deleteUser(@PathVariable String email,
                     @RequestHeader("Authorization") String token);
 
     @PutMapping()
-    UserDTO updateUser(@RequestBody UserDTO userDTO,
-                       @RequestHeader("Authorization") String token);
+    UserDTOResponse updateUser(@RequestBody UserDTORequest dtoRequest,
+                               @RequestHeader("Authorization") String token);
 
     @PutMapping("/address")
-    AddressDTO updateAddress(@RequestBody AddressDTO addressDTO,
-                             @RequestParam("id") Long id,
-                             @RequestHeader("Authorization") String token);
+    AddressDTOResponse updateAddress(@RequestBody AddressDTORequest addressDTORequest,
+                                     @RequestParam("id") Long id,
+                                     @RequestHeader("Authorization") String token);
 
     @PutMapping("/phone")
-    PhoneDTO updatePhone(@RequestBody PhoneDTO phoneDTO,
-                         @RequestParam("id") Long id,
-                         @RequestHeader("Authorization") String token);
+    PhoneDTOResponse updatePhone(@RequestBody PhoneDTORequest phoneDTORequest,
+                                 @RequestParam("id") Long id,
+                                 @RequestHeader("Authorization") String token);
 
 
     @PostMapping("/address")
-    UserDTO insertAddress(@RequestBody AddressDTO addressDTO,
-                          @RequestHeader("Authorization") String token);
+    UserDTOResponse insertAddress(@RequestBody AddressDTORequest addressDTORequest,
+                                  @RequestHeader("Authorization") String token);
 
     @PostMapping("/phone")
-    UserDTO insertPhone(@RequestBody PhoneDTO phoneDTO,
-                        @RequestHeader("Authorization") String token);
+    UserDTOResponse insertPhone(@RequestBody PhoneDTORequest phoneDTORequest,
+                                @RequestHeader("Authorization") String token);
 }

@@ -1,6 +1,7 @@
 package com.reso.bffscheduler.infrastructure.client;
 
-import com.reso.bffscheduler.business.dto.taskDTO.TaskDTO;
+import com.reso.bffscheduler.business.dto.in.TaskDTORequest;
+import com.reso.bffscheduler.business.dto.out.TaskDTOResponse;
 import com.reso.bffscheduler.business.enums.StatusTaskEnum;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,29 +14,29 @@ import java.util.List;
 public interface TaskClient {
 
     @PostMapping
-    TaskDTO createTask(@RequestBody TaskDTO taskDTO,
-                       @RequestHeader("Authorization") String token);
+    TaskDTOResponse createTask(@RequestBody TaskDTORequest dto,
+                               @RequestHeader("Authorization") String token);
 
     @GetMapping("/events")
-    List<TaskDTO> getAllTasks(
+    List<TaskDTOResponse> getAllTasks(
             @RequestParam("eventAfter") @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss") LocalDateTime eventAfter,
             @RequestParam("eventBefore") @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss") LocalDateTime eventBefore,
             @RequestParam("status") StatusTaskEnum statusTaskEnum,
             @RequestHeader("Authorization") String token);
 
     @GetMapping("/search-by-email")
-    List<TaskDTO> getTaskByEmail(@RequestHeader("Authorization") String token);
+    List<TaskDTOResponse> getTaskByEmail(@RequestHeader("Authorization") String token);
 
     @DeleteMapping()
     void deleteTaskById(@RequestParam("id") String id,
                         @RequestHeader("Authorization") String token);
 
     @PatchMapping
-    TaskDTO updateStatusTask(@RequestParam("status") StatusTaskEnum statusTaskEnum, @RequestParam("id") String id,
-                             @RequestHeader("Authorization") String token);
+    TaskDTOResponse updateStatusTask(@RequestParam("status") StatusTaskEnum statusTaskEnum, @RequestParam("id") String id,
+                                     @RequestHeader("Authorization") String token);
 
     @PutMapping
-    TaskDTO updateTask(@RequestBody TaskDTO taskDTO, @RequestParam("id") String id,
-                       @RequestHeader("Authorization") String token);
+    TaskDTOResponse updateTask(@RequestBody TaskDTORequest dto, @RequestParam("id") String id,
+                               @RequestHeader("Authorization") String token);
 
 }

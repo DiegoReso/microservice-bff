@@ -1,6 +1,7 @@
 package com.reso.bffscheduler.business;
 
-import com.reso.bffscheduler.business.dto.taskDTO.TaskDTO;
+import com.reso.bffscheduler.business.dto.in.TaskDTORequest;
+import com.reso.bffscheduler.business.dto.out.TaskDTOResponse;
 import com.reso.bffscheduler.business.enums.StatusTaskEnum;
 import com.reso.bffscheduler.infrastructure.client.TaskClient;
 import lombok.RequiredArgsConstructor;
@@ -15,15 +16,15 @@ public class TaskService {
 
     private final TaskClient client;
 
-    public TaskDTO createTask(String token, TaskDTO dto) {
+    public TaskDTOResponse createTask(String token, TaskDTORequest dto) {
         return client.createTask(dto, token);
     }
 
-    public List<TaskDTO> getTaskByPeriod(LocalDateTime eventDateAfter, LocalDateTime eventDateBefore, StatusTaskEnum statusTaskEnum, String token) {
+    public List<TaskDTOResponse> getTaskByPeriod(LocalDateTime eventDateAfter, LocalDateTime eventDateBefore, StatusTaskEnum statusTaskEnum, String token) {
         return client.getAllTasks(eventDateAfter, eventDateBefore, statusTaskEnum,token);
     }
 
-    public List<TaskDTO> getTaskByEmail(String token) {
+    public List<TaskDTOResponse> getTaskByEmail(String token) {
         return client.getTaskByEmail(token);
     }
 
@@ -31,11 +32,11 @@ public class TaskService {
         client.deleteTaskById(id, token);
     }
 
-    public TaskDTO updateStatusTask(String id, StatusTaskEnum statusTaskEnum, String token) {
+    public TaskDTOResponse updateStatusTask(String id, StatusTaskEnum statusTaskEnum, String token) {
         return client.updateStatusTask(statusTaskEnum, id, token);
     }
 
-    public TaskDTO updateTask(TaskDTO dto, String id, String token) {
+    public TaskDTOResponse updateTask(TaskDTORequest dto, String id, String token) {
         return client.updateTask(dto, id, token);
     }
 }
