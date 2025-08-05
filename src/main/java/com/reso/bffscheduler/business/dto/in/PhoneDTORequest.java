@@ -1,4 +1,4 @@
-package com.reso.bffscheduler.business.dto.userDTO;
+package com.reso.bffscheduler.business.dto.in;
 
 import lombok.*;
 
@@ -7,8 +7,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PhoneDTO {
+public class PhoneDTORequest {
 
-    private Long id;
+
     private int number;
 }
