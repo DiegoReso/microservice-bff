@@ -34,6 +34,8 @@ public class TaskController {
             @ApiResponse(responseCode = "400", description = "Bad request, invalid task data"),
             @ApiResponse(responseCode = "401", description = "Unauthorized access, invalid token"),
             @ApiResponse(responseCode = "403", description = "Forbidden access"),
+            @ApiResponse(responseCode = "404", description = "Task not found"),
+            @ApiResponse(responseCode = "409", description = "Conflict, task already exists"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<TaskDTOResponse> createTask(@RequestBody TaskDTORequest taskDTORequest,
